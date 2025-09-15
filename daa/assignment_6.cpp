@@ -11,6 +11,7 @@ using namespace std;
 class NQueens {
     private:
     int n;
+    int count = 0;
     vector<vector<char>> board;
 
     void printBoard() {
@@ -21,6 +22,7 @@ class NQueens {
             }
             cout<<endl;
         }
+        cout<<"--------------------------------------"<<endl;
     }
 
     bool isSafe(int row, int col) {
@@ -49,23 +51,24 @@ class NQueens {
             board = vector<vector<char>>(n, vector<char>(n, '*'));        
         }
 
-        bool placeQueens(int row) {
+        void placeQueens(int row) {
             if(row == n) {
                 printBoard();
-                return true;
+                count++;
             }
             else {
-                for(int x = row; x < n; x++) {
-                    for(int y = 0; y < n; y++) {
-                        if(isSafe(x, y)) {
-                            board[x][y] = 'Q';
-                            if(placeQueens(row + 1)) return true;
-                            board[x][y] = '*';
-                        }
+                for(int y = 0; y < n; y++) {
+                    if(isSafe(row, y)) {
+                            board[row][y] = 'Q';
+                            placeQueens(row + 1);
+                            board[row][y] = '*';
                     }
-                }
-                return false;
+                }                
             }
+        }
+
+        void displaySolutionCount() {
+            cout<<"Total no. of solutions: "<<count<<endl;
         }
 };
 
@@ -74,6 +77,7 @@ int main() {
     NQueens nq = NQueens();
     cout<<"**************** Solution ****************"<<endl;
     nq.placeQueens(0);
+    nq.displaySolutionCount();
     cout<<"******************************************"<<endl;
 
 }
