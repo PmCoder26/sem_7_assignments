@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
 
@@ -25,7 +26,7 @@ class NQueens {
         cout<<"--------------------------------------"<<endl;
     }
 
-    bool isSafe(int row, int col) {
+    bool isSafe(int row, int col) {        
         // column check.
         for(int x = row - 1; x >= 0; x--) {
             if(board[x][col] == 'Q') return false;
@@ -44,11 +45,25 @@ class NQueens {
         return true;
     }
 
+    bool containsQueenInRow(int row) {
+        for(int x = 0; x < n; x++) {
+            if(board[row][x] == 'Q') return true;
+        }
+        return false;
+    }
+
     public:
         NQueens() {
             cout<<"Enter the board size: ";
             cin>>n;
             board = vector<vector<char>>(n, vector<char>(n, '*'));        
+            cout<<"Enter the (row, column) to place the first queen: ";
+            int row, col;
+            cin>>row;
+            cin>>col;
+            board[row][col] = 'Q';
+            cout<<"************* Current Board *************"<<endl;                  
+            printBoard();         
         }
 
         void placeQueens(int row) {
@@ -57,12 +72,17 @@ class NQueens {
                 count++;
             }
             else {
-                for(int y = 0; y < n; y++) {
-                    if(isSafe(row, y)) {
+                if(containsQueenInRow(row)) {
+                    placeQueens(row + 1);
+                }
+                else {
+                    for(int y = 0; y < n; y++) {
+                        if(isSafe(row, y)) {
                             board[row][y] = 'Q';
                             placeQueens(row + 1);
                             board[row][y] = '*';
-                    }
+                        } 
+                    }               
                 }                
             }
         }
