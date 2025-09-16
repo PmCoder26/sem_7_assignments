@@ -27,18 +27,30 @@ class NQueens {
     }
 
     bool isSafe(int row, int col) {        
-        // column check.
+        // column up check.
         for(int x = row - 1; x >= 0; x--) {
             if(board[x][col] == 'Q') return false;
         }
+        // column down check.
+        for(int x = row; x < n; x++) {
+            if(board[x][col] == 'Q') return false;
+        }
 
-        // left diagonal check.
+        // left diagonal up check.
         for(int x = row - 1, y = col - 1; x >= 0 && y >= 0; x--, y--) {
             if(board[x][y] == 'Q') return false;
         }
+        // left diagonal down check.
+        for(int x = row + 1, y = col - 1; x < n && y >= 0; x++, y--) {
+            if(board[x][y] == 'Q') return false;
+        }
 
-        // right diagonal check.
+        // right diagonal up check.
         for(int x = row - 1, y = col + 1; x >= 0 && y < n; x--, y++) {
+            if(board[x][y] == 'Q') return false;
+        }
+        // right diagonal down check;
+        for(int x = row + 1, y = col + 1; x < n && y < n; x++, y++) {
             if(board[x][y] == 'Q') return false;
         }
 
